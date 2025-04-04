@@ -1,0 +1,17 @@
+---
+title: "Krithika Suwarna"
+image: "krithikaSuwarna.jpeg"
+about:
+    template: jolla
+    links:
+        - icon: envelope
+        - href: mailto:ksuwarna@ucsd.edu
+        - icon: linkedin
+        - href: https://www.linkedin.com/in/krithika-suwarna-b8240b17b/
+---
+
+A Graduate student pursuing Masters in Business Analytics at the University of California, San Diego
+
+Over 3+ years of industry experience in successfully delivering high-impact technical solutions, managing complex projects, and driving innovation in Software Engineering and Data Analytics
+
+To learn more about Quarto websites visit <https://quarto.org/docs/websites>.

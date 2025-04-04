@@ -1,0 +1,6 @@
+---
+title: "Resume"
+---
+
+{{< pdf Krithika-Suwarna-Resume-DS.docx.pdf
+width=100% height=800 >}} 

@@ -15,3 +15,4 @@ A Graduate student pursuing Masters in Business Analytics at the University of C
 Over 3+ years of industry experience in successfully delivering high-impact technical solutions, managing complex projects, and driving innovation in Software Engineering and Data Analytics
 
 To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
+

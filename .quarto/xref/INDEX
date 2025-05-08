@@ -19,5 +19,14 @@
   },
   "blog/Project 1/index.qmd": {
     "index.html": "ea0ce047"
+  },
+  "blog/CW - 1/file1.qmd": {
+    "file1.html": "11d27af5"
+  },
+  "blog/Project 4/hw2_questions.qmd": {
+    "hw2_questions.html": "c4f5b0ed"
+  },
+  "hw1/hw2_questions.qmd": {
+    "hw2_questions.html": "639722a6"
   }
 }

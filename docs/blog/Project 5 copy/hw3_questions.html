@@ -283,7 +283,7 @@ Note
 <section id="preparing-the-data-for-estimation" class="level2">
 <h2 class="anchored" data-anchor-id="preparing-the-data-for-estimation">3. Preparing the Data for Estimation</h2>
 <p>The “hard part” of the MNL likelihood function is organizing the data, as we need to keep track of 3 dimensions (consumer <span class="math inline">\(i\)</span>, covariate <span class="math inline">\(k\)</span>, and product <span class="math inline">\(j\)</span>) instead of the typical 2 dimensions for cross-sectional regression models (consumer <span class="math inline">\(i\)</span> and covariate <span class="math inline">\(k\)</span>). The fact that each task for each respondent has the same number of alternatives (3) helps. In addition, we need to convert the categorical variables for brand and ads into binary variables.</p>
-<div id="7ded0f2b" class="cell" data-execution_count="1">
+<div id="04f8ea87" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -327,7 +327,7 @@ y shape: (1000,)</code></pre>
 </section>
 <section id="estimation-via-maximum-likelihood" class="level2">
 <h2 class="anchored" data-anchor-id="estimation-via-maximum-likelihood">4. Estimation via Maximum Likelihood</h2>
-<div id="70e07bed" class="cell" data-execution_count="2">
+<div id="d71b6fe2" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> minimize</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.special <span class="im">import</span> logsumexp</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -352,7 +352,7 @@ y shape: (1000,)</code></pre>
 <span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="op">-</span>np.<span class="bu">sum</span>(chosen_log_prob)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Using <code>optim()</code> in R or <code>scipy.optimize()</code> in Python to find the MLEs for the 4 parameters (<span class="math inline">\(\beta_\text{netflix}\)</span>, <span class="math inline">\(\beta_\text{prime}\)</span>, <span class="math inline">\(\beta_\text{ads}\)</span>, <span class="math inline">\(\beta_\text{price}\)</span>), as well as their standard errors (from the Hessian). For each parameter constructed a 95% confidence interval.</p>
-<div id="72ed65ee" class="cell" data-execution_count="3">
+<div id="3b79b761" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Initial guess</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>beta_init <span class="op">=</span> np.zeros(X_arr.shape[<span class="dv">2</span>])</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -393,7 +393,7 @@ y shape: (1000,)</code></pre>
 <h2 class="anchored" data-anchor-id="estimation-via-bayesian-methods">5. Estimation via Bayesian Methods</h2>
 <section id="metropolis-hasting-mcmc-sampler-of-the-posterior-distribution" class="level3">
 <h3 class="anchored" data-anchor-id="metropolis-hasting-mcmc-sampler-of-the-posterior-distribution">Metropolis-hasting MCMC sampler of the posterior distribution</h3>
-<div id="ada50d36" class="cell" data-execution_count="4">
+<div id="575e13db" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define log prior: N(0,5) for first 3, N(0,1) for price</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> log_prior(beta):</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    logp <span class="op">=</span> <span class="dv">0</span></span>
@@ -442,18 +442,18 @@ y shape: (1000,)</code></pre>
 <span id="cb6-46"><a href="#cb6-46" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-47"><a href="#cb6-47" aria-hidden="true" tabindex="-1"></a>posterior_mean, posterior_ci, accepts <span class="op">/</span> n_iter</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="4">
-<pre><code>(array([ 0.94074049,  0.49582131, -0.73688832, -0.09982857]),
- array([[ 0.72926342,  1.15611024],
-        [ 0.2870978 ,  0.7068906 ],
-        [-0.91123312, -0.56173379],
-        [-0.1123459 , -0.08797003]]),
- 0.5723636363636364)</code></pre>
+<pre><code>(array([ 0.94445465,  0.5070906 , -0.73597536, -0.09969288]),
+ array([[ 0.7313747 ,  1.15360003],
+        [ 0.29336418,  0.7120645 ],
+        [-0.8918198 , -0.57513093],
+        [-0.11196144, -0.08751249]]),
+ 0.5654545454545454)</code></pre>
 </div>
 </div>
 </section>
 <section id="trace-plot-of-the-algorithm-and-the-histogram-of-the-posterior-distribution." class="level3">
 <h3 class="anchored" data-anchor-id="trace-plot-of-the-algorithm-and-the-histogram-of-the-posterior-distribution.">Trace plot of the algorithm, and the histogram of the posterior distribution.</h3>
-<div id="3ccaebce" class="cell" data-execution_count="5">
+<div id="e5c3ab67" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Choose one parameter to visualize, e.g., Netflix coefficient (index 0)</span></span>
@@ -488,7 +488,7 @@ y shape: (1000,)</code></pre>
 </section>
 <section id="the-4-posterior-means-standard-deviations-and-95-credible-intervals-and-comparison-of-the-results-from-the-maximum-likelihood-approach." class="level3">
 <h3 class="anchored" data-anchor-id="the-4-posterior-means-standard-deviations-and-95-credible-intervals-and-comparison-of-the-results-from-the-maximum-likelihood-approach.">The 4 posterior means, standard deviations, and 95% credible intervals and comparison of the results from the Maximum Likelihood approach.</h3>
-<div id="29e5a1dc" class="cell" data-execution_count="6">
+<div id="60c6ffa1" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate posterior standard deviations</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>posterior_std <span class="op">=</span> posterior_samples.std(axis<span class="op">=</span><span class="dv">0</span>)</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -514,16 +514,16 @@ y shape: (1000,)</code></pre>
 <span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(summary_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   Parameter  Posterior Mean  Posterior Std. Dev.  Bayesian 95% CI Lower  \
-0  β_Netflix        0.940740             0.107661               0.729263   
-1    β_Prime        0.495821             0.107614               0.287098   
-2      β_Ads       -0.736888             0.088820              -0.911233   
-3    β_Price       -0.099829             0.006178              -0.112346   
+0  β_Netflix        0.944455             0.107352               0.731375   
+1    β_Prime        0.507091             0.107684               0.293364   
+2      β_Ads       -0.735975             0.083398              -0.891820   
+3    β_Price       -0.099693             0.006201              -0.111961   
 
    Bayesian 95% CI Upper  MLE Estimate  MLE Std. Error  MLE 95% CI Lower  \
-0               1.156110      0.941195        0.113988          0.717780   
-1               0.706891      0.501616        0.120859          0.264732   
-2              -0.561734     -0.731994        0.088580         -0.905611   
-3              -0.087970     -0.099480        0.006358         -0.111942   
+0               1.153600      0.941195        0.113988          0.717780   
+1               0.712065      0.501616        0.120859          0.264732   
+2              -0.575131     -0.731994        0.088580         -0.905611   
+3              -0.087512     -0.099480        0.006358         -0.111942   
 
    MLE 95% CI Upper  
 0          1.164611  
